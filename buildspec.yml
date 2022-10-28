@@ -6,7 +6,7 @@ phases:
       - pip install flask
   build:
     commands:
-      - python flask 
+      - python main.py
 artifacts:
   files:
     - '**/*'
