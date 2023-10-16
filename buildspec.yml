@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  shell: shell-tag
+  variables:
+    ECR_REPO_URL: "836114180031.dkr.ecr.ap-northeast-1.amazonaws.com/flask-demo"
 phases:
   install:
     commands:
@@ -19,11 +23,10 @@ phases:
       - echo Pushing the Docker images to ECR
       - docker push $ECR_REPO_URL:latest
       - docker push $ECR_REPO_URL:$IMAGE_TAG
-      - aws ecs describe-task-definition --task-definition $TASK_DEFINITION | jq '.taskDefinition' > taskdef.json
       - envsubst < appspec.yaml > appspec.yml
       - printf '{"ImageURI":"%s"}' ${ECR_REPO_URL}:${IMAGE_TAG} > imageDetail.json
 artifacts:
   files:
     - appspec.yml
-    - taskdef.json
-    - image*.json
+#    - taskdef.json
+#    - image*.json
